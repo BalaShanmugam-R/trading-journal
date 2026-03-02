@@ -22,6 +22,7 @@ public class WebClientConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authz -> authz
                         .requestMatchers(SWAGGER_WHITELIST).permitAll()
+                        .requestMatchers("/api/trades/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .csrf(csrf -> csrf.disable()); // Disable CSRF for simplicity, adjust as needed

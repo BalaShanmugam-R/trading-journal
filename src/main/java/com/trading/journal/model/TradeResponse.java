@@ -1,5 +1,12 @@
 package com.trading.journal.model;
 
+import lombok.*;
+
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
 public class TradeResponse {
     public String id;
     public String description;

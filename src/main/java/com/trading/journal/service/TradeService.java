@@ -1,6 +1,7 @@
 package com.trading.journal.service;
 
 import com.trading.journal.model.TradeRequest;
+import com.trading.journal.model.TradeResponse;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,9 +12,9 @@ public class TradeService {
         return "fetched all details";
     }
 
-    public String addTrade(TradeRequest tradeRequest) {
+    public TradeResponse addTrade(TradeRequest tradeRequest) {
         //transform to requirements and add all details to DB
-        return "Trade Details Added Successfully";
+        return TradeResponse.builder().tradeAction("PE").strikeAction("25000").tradeMarket("Nifty").build();
     }
 
     public String modifyTrade(TradeRequest tradeRequest) {
