@@ -23,12 +23,12 @@ public class TradeController {
     }
 
     @PutMapping
-    public String modifyTrade(@RequestBody TradeRequest tradeRequest){
+    public String modifyTrade(@RequestBody TradeRequest tradeRequest) {
         return tradeService.modifyTrade(tradeRequest);
     }
 
     @DeleteMapping("/{id}")
-    public String removeTrade(@PathVariable Integer id){
+    public String removeTrade(@PathVariable Integer id) {
         return tradeService.removeTrade(id);
     }
 
