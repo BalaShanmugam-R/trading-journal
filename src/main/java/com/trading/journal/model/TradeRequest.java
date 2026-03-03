@@ -17,7 +17,7 @@ public class TradeRequest {
     public Integer id;
 
     @Schema(description = "orderType", example = "MKT/AMO")
-    private OrderType orderType;
+    private String orderType;
 
     @Schema(description = "quantity", example = "20")
     private Integer quantity;
@@ -59,9 +59,5 @@ public class TradeRequest {
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "expiry date in DD/MM/YYYY format", example = "12/12/2025")
     private LocalDate expiryDate;
-
-    public enum OrderType {
-        MKT, AMO;
-    }
 
 }

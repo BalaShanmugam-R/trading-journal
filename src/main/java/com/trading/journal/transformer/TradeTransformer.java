@@ -11,7 +11,7 @@ public class TradeTransformer {
 
     public TradeRecordEntity addTrade(TradeRequest request) {
         return TradeRecordEntity.builder()
-                .orderType(request.getOrderType() != null ? request.getOrderType() : TradeRequest.OrderType.MKT)
+                .orderType(request.getOrderType() != null ? request.getOrderType() : "MKT")
                 .quantity(request.getQuantity() != null ? request.getQuantity() : 20)
                 .exchange(request.getExchange() != null ? request.getExchange() : "NSE")
                 .symbol(request.getSymbol() != null ? request.getSymbol() : "NIFTY")

@@ -45,7 +45,7 @@ public class TradeService {
     public String ClearAllTrade() {
         long count = tradeRecordRepository.count();
         if (count > 0) {
-            tradeRecordRepository.truncateAndReset();
+            tradeRecordRepository.truncateTable();
             return String.format("Total :  %d records Cleared", count);
         } else {
             return "No records to clear";

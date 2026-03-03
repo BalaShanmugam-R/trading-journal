@@ -24,7 +24,7 @@ public class TradeRecordEntity {
     private Long id;
 
     @Column(name = "orderType")
-    private TradeRequest.OrderType orderType;
+    private String orderType;
 
     @Column(name = "quantity")
     private Integer quantity;
