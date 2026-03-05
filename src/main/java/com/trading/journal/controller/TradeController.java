@@ -1,7 +1,7 @@
 package com.trading.journal.controller;
 
-import com.trading.journal.entity.TradeRecordEntity;
 import com.trading.journal.model.TradeRequest;
+import com.trading.journal.model.TradeResponseList;
 import com.trading.journal.service.TradeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -23,8 +23,8 @@ public class TradeController {
 
     @Operation(summary = "Endpoint to fetch all trades", description = "This endpoint will be used to fetch all trade.", operationId = "trade-journal")
     @GetMapping
-    public ResponseEntity<List<TradeRecordEntity>> getAllTrades() {//add filters to fetch based on date/market
-        List<TradeRecordEntity> response = tradeService.getAllTrades();
+    public ResponseEntity<TradeResponseList> getAllTrades() {//add filters to fetch based on date/market
+        TradeResponseList response = tradeService.getAllTrades();
         return ResponseEntity.ok().body(response);
     }
 

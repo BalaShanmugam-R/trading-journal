@@ -13,14 +13,8 @@ import java.time.LocalDate;
 @ToString
 public class TradeRequest {
 
-    @Schema(description = "Id", example = "1")
-    public Integer id;
-
     @Schema(description = "orderType", example = "MKT/AMO")
     private String orderType;
-
-    @Schema(description = "quantity", example = "20")
-    private Integer quantity;
 
     @Schema(description = "exchange", example = "NSE")
     private String exchange;
@@ -34,23 +28,32 @@ public class TradeRequest {
     @Schema(description = "productType", example = "Intra trade/Normal")
     private String productType;
 
-    @Schema(description = "Trade entry value", example = "36.50")
-    private Double entryValue;
-
-    @Schema(description = "Target value", example = "49.50")
-    private Double exitValue;
-
-    @Schema(description = "Buy price", example = "2,500.05")
-    private Double buyPrice;
-
-    @Schema(description = "Sell price", example = "3,150.50")
-    private Double sellPrice;
+    @Schema(description = "strikePrice", example = "25000")
+    private Integer strikePrice;
 
     @Schema(description = "optionType", example = "CE/PE")
     private String optionType;
 
-    @Schema(description = "strikePrice", example = "25000")
-    private Integer strikePrice;
+    @Schema(description = "quantity", example = "20")
+    private Integer quantity;
+
+    @Schema(description = "Trade entry value", example = "36.50")
+    private Double entryValue;
+
+    @Schema(description = "Target exit value", example = "49.50")
+    private Double exitValue;
+
+    @Schema(description = "Actual Target value", example = "36.50")
+    private Double targetValue;
+
+    @Schema(description = "Stop Loss value", example = "25.00")
+    private Double stopLossValue;
+
+    /*@Schema(description = "Buy price", example = "2,500.05")
+    private Double buyPrice;
+
+    @Schema(description = "Sell price", example = "3,150.50")
+    private Double sellPrice;*/
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "trade date in DD/MM/YYYY format", example = "03/03/2026")
@@ -59,5 +62,9 @@ public class TradeRequest {
     @JsonFormat(pattern = "dd/MM/yyyy")
     @Schema(description = "expiry date in DD/MM/YYYY format", example = "12/12/2025")
     private LocalDate expiryDate;
+
+    public String getTradeKey(){
+        return  strikePrice + "_" + optionType + "_" + String.valueOf(entryValue) + "_" + String.valueOf(exitValue);
+    }
 
 }

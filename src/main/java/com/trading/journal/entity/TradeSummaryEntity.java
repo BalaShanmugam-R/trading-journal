@@ -1,11 +1,8 @@
 package com.trading.journal.entity;
 
-import com.trading.journal.model.TradeRequest;
+
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDate;
-
 
 @Getter
 @Setter
@@ -15,37 +12,19 @@ import java.time.LocalDate;
 @NoArgsConstructor
 
 @Entity
-@Table(name = "trade_records")
-public class TradeRecordEntity {
+@Table(name = "trade_summary")
+public class TradeSummaryEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Long id;
-
-    @Column(name = "order_type")
-    private String orderType;
-
-    @Column(name = "exchange")
-    private String exchange;
-
-    @Column(name = "symbol")
-    private String symbol;
-
-    @Column(name = "instrument")
-    private String instrument;
-
-    @Column(name = "product_type")
-    private String productType;
+    @Column(name = "summary_id")
+    private Long summaryId;
 
     @Column(name = "strike_price")
     private Integer strikePrice;
 
     @Column(name = "option_type")
     private String optionType;
-
-    @Column(name = "quantity")
-    private Integer quantity;
 
     @Column(name = "entry_value")
     private Double entryValue;
@@ -62,17 +41,26 @@ public class TradeRecordEntity {
     @Column(name = "buy_price")
     private Double buyPrice;
 
-    @Column(name = "sellPrice")
+    @Column(name = "sell_price")
     private Double sellPrice;
 
-    @Column(name = "tradeDate")
-    private LocalDate tradeDate;
+    @Column(name = "status")
+    private String status;
 
-    @Column(name = "expiryDate")
-    private LocalDate expiryDate;
+    @Column(name = "profit")
+    private Double profit;
+
+    @Column(name = "loss")
+    private Double loss;
+
+    @Column(name = "risk_reward_ratio")
+    private String riskRewardRatio;
+
+    @Column(name = "captured_points")
+    private Integer capturedPoints;
 
     public String getTradeKey(){
         return  strikePrice + "_" + optionType + "_" + String.valueOf(entryValue) + "_" + String.valueOf(exitValue);
     }
-
 }
+
