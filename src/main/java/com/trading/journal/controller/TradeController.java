@@ -2,6 +2,7 @@ package com.trading.journal.controller;
 
 import com.trading.journal.model.TradeRequest;
 import com.trading.journal.model.TradeResponseList;
+import com.trading.journal.model.TradeUpdateRequest;
 import com.trading.journal.service.TradeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,22 +45,22 @@ public class TradeController {
         return ResponseEntity.ok().body(response);
     }
 
-    @Operation(summary = "Endpoint to modify specific trade record", description = "This endpoint will be used to modify specific trade record.", operationId = "trade-journal")
+    /*@Operation(summary = "Endpoint to update editable fields in record", description = "This endpoint will be used to modify specific trade record.", operationId = "trade-journal")
     @PutMapping
-    public String modifyTrade(@RequestBody TradeRequest tradeRequest) {
+    public String updateTrade(@Validated @RequestBody TradeUpdateRequest tradeRequest) {
         return tradeService.modifyTrade(tradeRequest);
-    }
+    }*/
 
-    @Operation(summary = "Endpoint to delete all trades", description = "This endpoint will be used to delete all trade.", operationId = "trade-journal")
+    @Operation(summary = "Endpoint to flush all trade records", description = "This endpoint will be used to delete all trade.", operationId = "trade-journal")
     @DeleteMapping
     public String ClearAllTrade() {
         return tradeService.ClearAllTrade();
     }
 
     @Operation(summary = "Endpoint to delete specific trade record", description = "This endpoint will be used to delete specific trade record.", operationId = "trade-journal")
-    @DeleteMapping("/{id}")
-    public String removeTrade(@PathVariable Integer id) {
-        return tradeService.removeTrade(id);
+    @DeleteMapping("/remove")
+    public String removeTrade(@RequestBody TradeRequest request) {
+        return tradeService.removeTrade(request);
     }
 
     //add lookup endpoint and filters and sorts slowly

@@ -52,4 +52,18 @@ public interface TradeRecordRepository extends JpaRepository<TradeRecordEntity, 
             @Param("exitValue") Double exitValue
     );
 
+    @Query(value = """
+        DELETE FROM trade_records r 
+        WHERE r.strike_price = :strikePrice 
+          AND r.option_type = :optionType 
+          AND r.entry_value = :entryValue 
+          AND r.exit_value = :exitValue
+    """, nativeQuery = true)
+    boolean deleteByTradeKey(
+            @Param("strikePrice") Integer strikePrice,
+            @Param("optionType") String optionType,
+            @Param("entryValue") Double entryValue,
+            @Param("exitValue") Double exitValue
+    );
+
 }
