@@ -5,11 +5,11 @@ import com.trading.journal.entity.TradeSummaryEntity;
 import com.trading.journal.model.TradeRequest;
 import com.trading.journal.model.TradeResponse;
 import com.trading.journal.repository.TradeRecordRepository;
+import com.trading.journal.utility.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,17 +20,17 @@ public class TradeTransformer {
     TradeRecordRepository tradeRecordRepository;
 
     public TradeRecordEntity addTrade(TradeRequest request) {
-        Double buy = calculateBuySellPrice(request, "buy");
-        Double sell = calculateBuySellPrice(request, "sell");
+        Double buy = calculateBuySellPrice(request, Constants.BUY);
+        Double sell = calculateBuySellPrice(request, Constants.SELL);
 
         TradeRecordEntity record = TradeRecordEntity.builder()
-                .orderType(request.getOrderType() != null ? request.getOrderType() : "MKT")
-                .exchange(request.getExchange() != null ? request.getExchange() : "NSE")
-                .symbol(request.getSymbol() != null ? request.getSymbol() : "NIFTY")
-                .instrument(request.getInstrument() != null ? request.getInstrument() : "Options")
-                .productType(request.getProductType() != null ? request.getProductType() : "Intra trade")
+                .orderType(request.getOrderType() != null ? request.getOrderType() : Constants.MKT)
+                .exchange(request.getExchange() != null ? request.getExchange() : Constants.NSE)
+                .symbol(request.getSymbol() != null ? request.getSymbol() : Constants.NIFTY)
+                .instrument(request.getInstrument() != null ? request.getInstrument() : Constants.OPTIONS)
+                .productType(request.getProductType() != null ? request.getProductType() : Constants.INTRA_TRADE)
                 .strikePrice(request.getStrikePrice())
-                .optionType(request.getOptionType() != null ? request.getOptionType() : "CE")
+                .optionType(request.getOptionType() != null ? request.getOptionType() : Constants.CE)
                 .quantity(request.getQuantity() != null ? request.getQuantity() : 20)
                 .entryValue(request.getEntryValue())
                 .exitValue(request.getExitValue())
@@ -56,7 +56,7 @@ public class TradeTransformer {
 
         // R:R = target% / sl%
         Integer ratio = (int) Math.round(targetPercent / slPercent);
-        return String.format("1:%s", String.valueOf(ratio));
+        return String.format("1 : %s", String.valueOf(ratio));
     }
 
     private Integer calculateCapturedPoints(Double buy, Double sell) {
@@ -66,17 +66,17 @@ public class TradeTransformer {
     private String status(Double profit) {
         boolean pl = profit > 0;
         if (pl) {
-            return "PROFIT";
+            return Constants.PROFIT_UPPERCASE;
         } else {
-            return "LOSS";
+            return Constants.LOSS_UPPERCASE;
         }
     }
 
     private Double calculateBuySellPrice(TradeRequest request, String type) {
         Double pl = 0.0;
-        if (type.equals("buy")) {
+        if (type.equals(Constants.BUY)) {
             pl = request.getEntryValue() * request.getQuantity();
-        } else if (type.equals("sell")) {
+        } else if (type.equals(Constants.SELL)) {
             pl = request.getExitValue() * request.getQuantity();
         }
         return pl;
@@ -85,9 +85,9 @@ public class TradeTransformer {
     private Double calculateProfitLoss(TradeRequest request, String type) {
         Double pl = request.getExitValue() - request.getEntryValue();  // Total values
 
-        if ("profit".equals(type)) {
+        if (Constants.PROFIT.equals(type)) {
             return pl > 0 ? pl : 0.0;
-        } else if ("loss".equals(type)) {
+        } else if (Constants.LOSS.equals(type)) {
             return pl < 0 ? pl : 0.0;
         }
         return 0.0;
@@ -95,11 +95,11 @@ public class TradeTransformer {
 
 
     public TradeSummaryEntity addTradeSummary(TradeRequest request) {
-        Double profit = calculateProfitLoss(request, "profit");
-        Double loss = calculateProfitLoss(request, "loss");
+        Double profit = calculateProfitLoss(request, Constants.PROFIT);
+        Double loss = calculateProfitLoss(request, Constants.LOSS);
 
-        Double buy = calculateBuySellPrice(request, "buy");
-        Double sell = calculateBuySellPrice(request, "sell");
+        Double buy = calculateBuySellPrice(request, Constants.BUY);
+        Double sell = calculateBuySellPrice(request, Constants.SELL);
 
         return TradeSummaryEntity.builder()
                 .strikePrice(request.getStrikePrice())
@@ -145,40 +145,5 @@ public class TradeTransformer {
                 )
                 .collect(Collectors.toList());
     }
-
-    /*public List<TradeResponse> getAllTrades(List<TradeRecordEntity> recordEntityList, List<TradeSummaryEntity> summaryEntityList) {
-        return recordEntityList.stream()
-                .flatMap(record -> summaryEntityList.stream()
-                        .filter(summary -> record.getTradeKey().equals(summary.getTradeKey()))
-                        .map(summary -> mapRecord(record, summary)))
-                .collect(Collectors.toList());
-    }
-
-    private static TradeResponse mapRecord(TradeRecordEntity record, TradeSummaryEntity summary) {
-        return TradeResponse.builder()
-                .exchange(record.getExchange())
-                .symbol(record.getSymbol())
-                .instrument(record.getInstrument())
-                .orderType(record.getOrderType())
-                .quantity(record.getQuantity())
-                .buyPrice(record.getBuyPrice())
-                .sellPrice(record.getSellPrice())
-                .strikePrice(record.getStrikePrice())
-                .optionType(record.getOptionType())
-                .entryValue(record.getEntryValue())
-                .exitValue(record.getExitValue())
-                .stopLossValue(record.getStopLossValue())
-                .targetValue(record.getTargetValue())
-                .buyPrice(record.getBuyPrice())
-                .sellPrice(record.getSellPrice())
-                .tradeDate(record.getTradeDate())
-                .expiryDate(record.getExpiryDate())
-                .profit(summary.getProfit())
-                .loss(summary.getLoss())
-                .status(summary.getStatus())
-                .riskRewardRatio(summary.getRiskRewardRatio())
-                .capturedPoints(summary.getCapturedPoints())
-                .build();
-    }*/
 
 }

@@ -12,13 +12,13 @@ public class swaggerConfig {
     public OpenAPI app() {
         final Contact coreEngineeringContact = new Contact();
         coreEngineeringContact.setEmail("balashan.1999@gmail.com");
-        coreEngineeringContact.setName("Rookie Developer");
+        coreEngineeringContact.setName("Balashanmugam Ravichelvan");
 
         return new OpenAPI()
                 .info(new Info()
                         .title("Trading Journal")
                         .version("1.0.0")
-                        .description("This Application tracks records of option trading.")
+                        .description("This Application tracks records of trading.")
                         .contact(coreEngineeringContact));
     }
 

@@ -30,28 +30,13 @@ public class TradeController {
     }
 
     @Operation(summary = "Endpoint to add trades", description = "This endpoint will be used to add new trade.", operationId = "trade-journal")
-    /*@ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "200", content = @Content(mediaType = MediaType.APPLICATION_JSON,schema = @Schema(implementation = TradeResponse.class))),
-            @ApiResponse (responseCode = "400", description = "Constants.HTTP_STATUS_400_DESCRIPTION", content = @Content (mediaType =MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class))),
-            @ApiResponse (responseCode = "401", description = "Constants.HTTP_STATUS_401_DESCRIPTION" ,content = @Content (mediaType = MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class))),
-            @ApiResponse (responseCode = "403", description = "Constants.HTTP_STATUS_403_DESCRIPTION", content = @Content (mediaType = MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class))),
-            @ApiResponse (responseCode = "404", description = "Constants.HTTP_STATUS_404_DESCRIPTION", content = @Content (mediaType = MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class))),
-            @ApiResponse (responseCode = "500", description = "Constants.HTTP_STATUS_500_DESCRIPTION", content = @Content(mediaType = MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class))),
-            @ApiResponse (responseCode = "503", description = "Constants.HTTP_STATUS_503_DESCRIPTION", content = @Content (mediaType = MediaType.APPLICATION_JSON,schema = @Schema (implementation = ErrorResponse.class)))})
-    */
     @PostMapping
     public ResponseEntity<String> addTrade(@RequestBody TradeRequest tradeRequest) {
         String response = tradeService.addTrade(tradeRequest);
         return ResponseEntity.ok().body(response);
     }
 
-    /*@Operation(summary = "Endpoint to update editable fields in record", description = "This endpoint will be used to modify specific trade record.", operationId = "trade-journal")
-    @PutMapping
-    public String updateTrade(@Validated @RequestBody TradeUpdateRequest tradeRequest) {
-        return tradeService.modifyTrade(tradeRequest);
-    }*/
-
-    @Operation(summary = "Endpoint to flush all trade records", description = "This endpoint will be used to delete all trade.", operationId = "trade-journal")
+    @Operation(summary = "Endpoint to flush all trade records at once", description = "This endpoint will be used to delete all trade.", operationId = "trade-journal")
     @DeleteMapping
     public String ClearAllTrade() {
         return tradeService.ClearAllTrade();
@@ -62,8 +47,5 @@ public class TradeController {
     public String removeTrade(@RequestBody TradeRequest request) {
         return tradeService.removeTrade(request);
     }
-
-    //add lookup endpoint and filters and sorts slowly
-    //later validation
 
 }

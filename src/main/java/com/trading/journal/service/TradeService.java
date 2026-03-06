@@ -5,17 +5,16 @@ import com.trading.journal.entity.TradeSummaryEntity;
 import com.trading.journal.model.TradeRequest;
 import com.trading.journal.model.TradeResponse;
 import com.trading.journal.model.TradeResponseList;
-import com.trading.journal.model.TradeUpdateRequest;
 import com.trading.journal.repository.TradeRecordRepository;
 import com.trading.journal.repository.TradeSummaryRepository;
 import com.trading.journal.transformer.TradeTransformer;
+import com.trading.journal.utility.Constants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class TradeService {
@@ -30,7 +29,6 @@ public class TradeService {
     private TradeTransformer tradeTransformer;
 
     public TradeResponseList getAllTrades() {
-        //fetch all records and map
         List<TradeResponse> responseList = tradeTransformer.getAllTradeRecords();
         TradeResponseList response = TradeResponseList.builder().tradeResponseList(responseList).totalRecords(tradeRecordRepository.count())
                 .build();
@@ -42,14 +40,14 @@ public class TradeService {
         try {
             boolean recordExists = findRecordExist(request);
             if (recordExists) {
-                return "record already exists";
+                return Constants.RECORD_ALREADY_EXISTS;
             } else {
                 TradeRecordEntity entity = tradeTransformer.addTrade(request);
                 tradeRecordRepository.save(entity);
 
                 TradeSummaryEntity summary = tradeTransformer.addTradeSummary(request);
                 tradeSummaryRepository.save(summary);
-                return "added trade successfully";
+                return Constants.RECORD_ADDED_SUCCESSFULLY;
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -61,35 +59,13 @@ public class TradeService {
         return exists;
     }
 
-    /*public String modifyTrade(TradeUpdateRequest request) {
-        //modify trade details
-        try {
-            boolean recordExists = findRecordExist(request);
-            if (recordExists) {
-                tradeRecordRepository.deleteByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue(), request.getExitValue());
-                return "Record modified successfully";
-            } else {
-                TradeRecordEntity entity = tradeTransformer.addTrade(request);
-                tradeRecordRepository.save(entity);
-
-                TradeSummaryEntity summary = tradeTransformer.addTradeSummary(request);
-                tradeSummaryRepository.save(summary);
-
-                return "modified trade successfully";
-            }
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }*/
-
     public String removeTrade(TradeRequest request) {
-        //remove  specific trade details
         boolean recordExists = findRecordExist(request);
         if (recordExists) {
             tradeRecordRepository.deleteByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue(), request.getExitValue());
-            return "Record deleted successfully";
+            return Constants.RECORD_REMOVED_SUCCESSFULLY;
         } else {
-            return "Record doesn't exist";
+            return Constants.RECORD_NOT_AVAILABLE;
         }
     }
 
@@ -98,9 +74,9 @@ public class TradeService {
         long count = tradeRecordRepository.count();
         if (count > 0) {
             tradeRecordRepository.truncateTable();
-            return String.format("Total :  %d records Cleared", count);
+            return String.format(Constants.TOTAL_RECORDS_COUNT, count);
         } else {
-            return "No records to clear";
+            return Constants.RECORDS_EMPTY;
         }
     }
 }
