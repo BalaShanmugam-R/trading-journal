@@ -1,61 +1,122 @@
-# Journal
+# 🏦 Trading Journal – Spring Boot Backend
 
-A small Spring Boot application for tracking trades.
+[![Java-17-orange?style=for-the-badge&logo=java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)]
+[![SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)](https://img.shields.io/badge/SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)
+[![PostgreSQL-blue?style=for-the-badge&logo=postgresql)](https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql)
+[![Maven-Build-red?style=for-the-badge&logo=apachemaven)](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven)
+[![SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)](https://img.shields.io/badge/SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)
 
-## What this is
+## 🚀 Overview
 
-This repository contains a simple Spring Boot web application (Java 17, Maven) used as a personal trading journal.
+Personal trading journal backend built with **Spring Boot 4.0.3**, **JPA/Hibernate**, and **PostgreSQL**. Tracks trade records with profit/loss analysis, risk-reward ratios, and comprehensive CRUD operations. Designed for intraday options trading with real-time P&L calculations and advanced analytics.
 
-## Prerequisites
+*Tracking personal trades for risk analysis - **not financial advice or trading promotion***
+## 🛠 Tech Stack
 
-- JDK 17
-- Git (optional)
-- Maven wrapper is included, so Maven installed locally is optional
+- **Java 17**
+- **Spring Boot 4.0.3** (WebMVC, Data JPA, Security, DevTools)
+- **PostgreSQL 42.7.3** (`tradingjournal` schema)
+- **Hibernate/JPA** (Native queries, JOINs)
+- **Maven**
+- **SpringDoc OpenAPI 2.8.5** (Swagger UI)
+- **Lombok 1.18.42**
 
-## Build
+## ✅ Features Implemented
 
-Open PowerShell in the project root (where `pom.xml` is located) and run:
+### 📊 Trade Management
 
-```powershell
-./mvnw.cmd clean package
+- ✅ Full CRUD operations (Create, Read, Update, Delete)
+- ✅ Bulk clear/truncate with CASCADE
+- ✅ Trade existence checks by composite keys
+
+### 💹 Advanced Analytics
+
+- 💰 Profit/Loss calculations (`buy/sell × quantity`)
+- ⚖️ Risk:Reward ratios (`target% / stoploss%`)
+- 📈 Captured points (`sell - buy`)
+- 🟢 Trade status (PROFIT/LOSS/OPEN)
+
+### 🔍 Data Layer
+
+- 🗄️ Dual-table design: `trade_records` + `trade_summary`
+- 🔗 Multi-column JOINs (`strikePrice + optionType + entry/exit`)
+- ⚙️ Native SQL queries for complex matching
+- 📄 Pagination-ready repositories
+
+## 📡 API Endpoints
+
+Access **Swagger UI**: `http://localhost:8080/swagger-ui.html`
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/trades` | Fetch all trades + summaries |
+| `POST` | `/api/trades` | Add new trade |
+| `PUT` | `/api/trades/{id}` | Update P&L/status |
+| `DELETE` | `/api/trades` | Clear all trades |
+| `DELETE` | `/api/trades/remove` | Delete specific trade |
+
+**📂 Project Structure**
+```
+src
+├── controller
+├── service
+├── entity
+├── model
+├── repository
+├── transformer
+└── resources
 ```
 
-This will produce `target/journal-0.0.1-SNAPSHOT.jar`.
+### 🧪 Key Challenges Solved
+- 🔧 FK constraint truncate → CASCADE + child-first order
+- 🔍 JOIN duplicates → DISTINCT + LATERAL LIMIT 1
+- 🛠️ DTO constructor mismatches → Object[] row mapping
+- ⚡ Native query syntax → Multi-field equality joins
+- 📊 Streaming large results → Chunked ID-range queries
 
-If you prefer a local Maven installation, use:
+### ⚙ Configuration
+```
+- application.properties:
+- # Database
+spring.datasource.url=jdbc:postgresql://localhost:5432/tradingjournal
+spring.datasource.username=your_username
+spring.datasource.password=your_password
+spring.datasource.driver-class-name=org.postgresql.Driver
 
-```powershell
-mvn clean package
+# JPA
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+
+# Swagger(optional)
+springdoc.swagger-ui.path=/swagger-ui.html
+springdoc.api-docs.path=/v3/api-docs
 ```
 
-## Run
+### 🧪 Testing
+- 🔧 Swagger UI: http://localhost:8080/swagger-ui.html
+- 📱 Postman/Insomnia for API testing
+- 🧪 Unit/Integration tests (planned)
 
-Run the packaged JAR with:
+### 🧠 What I Learned
+- ⚙️ Native JOIN optimization for composite keys
+- 🐛 JPA pitfalls: DTO constructors, row mapping, cascade deletes
+- 🗃️ PostgreSQL: CONCAT for composite keys, LATERAL joins
+- 💹 Trading math: Risk:reward, captured points
+- 🎨 API design: Immutable fields, partial updates
 
-```powershell
-java -jar target\journal-0.0.1-SNAPSHOT.jar
-```
+### 🔜 Upcoming Features
+- 🔐 Authentication/JWT integration
+- 🔍 Pagination + filters (date, market, P&L)
+- 📤 Export CSV/PDF
 
-By default the application binds to port 8080. You can override the port by setting `server.port` in `application.properties` or via command-line:
+### 📌 Status
 
-```powershell
-java -jar target\journal-0.0.1-SNAPSHOT.jar --server.port=8081
-```
+Actively enhancing query performance and adding filters in progress. Continuously improving architecture and adding new features.
 
-## Tests
+## 👨‍💻 Author
 
-Run unit tests with:
+**Bala Shanmugam**  
+**Java Backend Developer | Trading Beginner Enthusiast**
 
-```powershell
-./mvnw.cmd test
-```
-
-## Project structure
-
-- `src/main/java` – application source
-- `src/main/resources` – configuration and templates/static assets
-- `src/test` – tests
-
-## Contributing
-
-Feel free to open issues or submit PRs. Keep changes small and add tests where applicable.
+⭐ **Star this repo if you find it helpful!** 🚀
