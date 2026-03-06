@@ -55,14 +55,14 @@ public class TradeService {
     }
 
     private boolean findRecordExist(TradeRequest request) {
-        boolean exists = tradeRecordRepository.findByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue(), request.getExitValue());
-        return exists;
+        return tradeRecordRepository.findExistByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue());
     }
 
+    @Transactional
     public String removeTrade(TradeRequest request) {
         boolean recordExists = findRecordExist(request);
         if (recordExists) {
-            tradeRecordRepository.deleteByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue(), request.getExitValue());
+            tradeRecordRepository.deleteByStrikePriceAndOptionTypeAndEntryValue(request.getStrikePrice(), request.getOptionType(), request.getEntryValue());
             return Constants.RECORD_REMOVED_SUCCESSFULLY;
         } else {
             return Constants.RECORD_NOT_AVAILABLE;
@@ -77,6 +77,24 @@ public class TradeService {
             return String.format(Constants.TOTAL_RECORDS_COUNT, count);
         } else {
             return Constants.RECORDS_EMPTY;
+        }
+    }
+
+    public String updateTrade(TradeRequest request) {
+        try {
+            boolean recordExists = findRecordExist(request);
+            if (!recordExists) {
+                return Constants.RECORD_NOT_AVAILABLE_TO_UPDATE;
+            } else {
+                TradeRecordEntity entity = tradeRecordRepository.findByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue());
+                TradeSummaryEntity summary = tradeSummaryRepository.findByTradeKey(request.getStrikePrice(), request.getOptionType(), request.getEntryValue());
+                tradeTransformer.updateTradeSummary(entity, summary, request);
+                tradeRecordRepository.save(entity);
+                tradeSummaryRepository.save(summary);
+                return Constants.RECORD_UPDATED_SUCCESSFULLY;
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

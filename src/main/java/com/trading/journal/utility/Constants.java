@@ -9,8 +9,10 @@ public class Constants {
     public static String RECORD_ADDED_SUCCESSFULLY= "Record added successfully.";
     public static String RECORD_REMOVED_SUCCESSFULLY=  "Record removed successfully.";
     public static String RECORD_NOT_AVAILABLE= "Record doesn't exist in the collection to remove.";
-    public static String RECORDS_EMPTY= "Collection is empty.";
+    public static String RECORDS_EMPTY= "Collection is already empty.";
     public static String TOTAL_RECORDS_COUNT= "Total :  %d records Cleared";
+    public static String RECORD_NOT_AVAILABLE_TO_UPDATE= "Record doesn't exist in the collection to update.";
+    public static String RECORD_UPDATED_SUCCESSFULLY= "Record updated successfully.";
 
     public static String PROFIT_UPPERCASE= "PROFIT";
     public static String LOSS_UPPERCASE= "LOSS";

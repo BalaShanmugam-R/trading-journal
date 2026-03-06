@@ -47,13 +47,13 @@ Personal trading journal backend built with **Spring Boot 4.0.3**, **JPA/Hiberna
 
 Access **Swagger UI**: `http://localhost:8080/swagger-ui.html`
 
-| Method | Endpoint | Description                         |
-|--------|----------|-------------------------------------|
-| `GET` | `/api/trades` | Fetch all trades + summaries        |
-| `POST` | `/api/trades` | Add new trade                       |
-| `PUT` | `/api/trades` | Update P&L/status **(In Progress)** |
-| `DELETE` | `/api/trades` | Clear all trades                    |
-| `DELETE` | `/api/trades/remove` | Delete specific trade               |
+| Method | Endpoint | Description                 |
+|--------|----------|-----------------------------|
+| `GET` | `/api/trades` | Fetch all trades + summaries|
+| `POST` | `/api/trades` | Add new trade|
+| `PUT` | `/api/trades` | Update P&L/status|
+| `DELETE` | `/api/trades` | Clear all trades|
+| `DELETE` | `/api/trades/remove` | Delete specific trade|
 
 ### 📂 Project Structure
 ```
