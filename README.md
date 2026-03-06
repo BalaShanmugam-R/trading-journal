@@ -1,10 +1,10 @@
 # 🏦 Trading Journal – Spring Boot Backend
 
-[![Java-17-orange?style=for-the-badge&logo=java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)]
-[![SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)](https://img.shields.io/badge/SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)
-[![PostgreSQL-blue?style=for-the-badge&logo=postgresql)](https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql)
-[![Maven-Build-red?style=for-the-badge&logo=apachemaven)](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven)
-[![SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)](https://img.shields.io/badge/SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)
+![Java-17-orange?style=for-the-badge&logo=java](https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=java)
+![SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)](https://img.shields.io/badge/SpringBoot-4.0.3-brightgreen?style=for-the-badge&logo=springboot)
+![PostgreSQL-blue?style=for-the-badge&logo=postgresql)](https://img.shields.io/badge/PostgreSQL-blue?style=for-the-badge&logo=postgresql)
+![Maven-Build-red?style=for-the-badge&logo=apachemaven)](https://img.shields.io/badge/Maven-Build-red?style=for-the-badge&logo=apachemaven)
+![SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)](https://img.shields.io/badge/SpringDoc-OpenAPI-green?style=for-the-badge&logo=swagger)
 
 ## 🚀 Overview
 
@@ -47,15 +47,15 @@ Personal trading journal backend built with **Spring Boot 4.0.3**, **JPA/Hiberna
 
 Access **Swagger UI**: `http://localhost:8080/swagger-ui.html`
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/trades` | Fetch all trades + summaries |
-| `POST` | `/api/trades` | Add new trade |
-| `PUT` | `/api/trades/{id}` | Update P&L/status |
-| `DELETE` | `/api/trades` | Clear all trades |
-| `DELETE` | `/api/trades/remove` | Delete specific trade |
+| Method | Endpoint | Description                         |
+|--------|----------|-------------------------------------|
+| `GET` | `/api/trades` | Fetch all trades + summaries        |
+| `POST` | `/api/trades` | Add new trade                       |
+| `PUT` | `/api/trades` | Update P&L/status **(In Progress)** |
+| `DELETE` | `/api/trades` | Clear all trades                    |
+| `DELETE` | `/api/trades/remove` | Delete specific trade               |
 
-**📂 Project Structure**
+### 📂 Project Structure
 ```
 src
 ├── controller
@@ -72,7 +72,6 @@ src
 - 🔍 JOIN duplicates → DISTINCT + LATERAL LIMIT 1
 - 🛠️ DTO constructor mismatches → Object[] row mapping
 - ⚡ Native query syntax → Multi-field equality joins
-- 📊 Streaming large results → Chunked ID-range queries
 
 ### ⚙ Configuration
 ```
@@ -108,6 +107,7 @@ springdoc.api-docs.path=/v3/api-docs
 ### 🔜 Upcoming Features
 - 🔐 Authentication/JWT integration
 - 🔍 Pagination + filters (date, market, P&L)
+- 📊 Streaming large results → Chunked ID-range queries
 - 📤 Export CSV/PDF
 
 ### 📌 Status
