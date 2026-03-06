@@ -26,7 +26,7 @@ public class TradeController {
         return ResponseEntity.ok().body(response);
     }
 
-    @Operation(summary = "Endpoint to add trades", description = "This endpoint will be used to add new trade.", operationId = "trade-journal")
+    @Operation(summary = "Endpoint to add new trade record", description = "This endpoint will be used to add new trade.", operationId = "trade-journal")
     @PostMapping
     public ResponseEntity<String> addTrade(@RequestBody TradeRequest tradeRequest) {
         String response = tradeService.addTrade(tradeRequest);
